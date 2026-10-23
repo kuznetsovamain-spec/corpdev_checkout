@@ -149,7 +149,7 @@ var HERO={"Катя Кузнецова":["Архитектор","Стратег�
 "Миша Елисов":["Штурман","Shop in Shop, Стратегия Low Price","Прокладывает маршруты для Lamoda на чужие площадки.",["Штурм площадок: Яндекс.Маркет, ТБанк, Авито — открывает Lamoda новые витрины","Карта маршрутов: условия входа и финансовая модель по каждой площадке","Скорость запуска: доводит проекты от идеи до Launched"],"star"],
 "Ира Рубан":["Следопыт","Non-fashion M&A-таргеты, СТМ","Идёт по следу туда, где ещё нет ни одного конкурента.",["Нюх на таргеты: ищет и оценивает non-fashion компании для M&A","Союз с X5: ведёт коммерческий стрим стратегического партнёрства","Свои бренды через партнёров: развитие СТМ с ТШоппинг и Альфа"],"track"]};
 function openHero(n){var H=HERO[n];if(!H)return;
- var mine=rows.filter(function(r){var k=light(r);return leaders(r).indexOf(n)>-1&&r.pr&&(k=="r"||k=="g")});
+ var mine=rows.filter(function(r){var k=light(r);return leaders(r).indexOf(n)>-1&&r.pr&&r.pr!="Workshop"&&(k=="r"||k=="g")});
  var ms=mine.map(function(r){var k=light(r),nm=r.p=="M&A"&&r.s?r.s:r.p+(r.s?" — "+r.s:"");
   return'<li><span class="dot" style="--c:'+COL[k]+'"></span><span>'+nm+' <span class="nm">· '+r.pr+(k=="r"?' · <b class="flag">нужно внимание</b>':'')+'</span></span></li>'}).join("");
  var m=document.getElementById("modal");
@@ -187,7 +187,7 @@ function render(){
  document.getElementById("lights").innerHTML=["r","g","l","n","b","x"].map(function(k){return'<button class="L'+(fl.light==k?" on":"")+'" data-l="'+k+'"><span class="dot" style="--c:'+COL[k]+'"></span><b>'+cnt[k]+'</b><span>'+LN[k]+'</span></button>'}).join("");
  var names=["Катя Кузнецова","Настя Сальникова","Миша Елисов","Ира Рубан"];
  document.getElementById("all").innerHTML='<button class="'+(fl.who?"":"on")+'" data-w="">Вся команда</button>';
- document.getElementById("who").innerHTML=names.map(function(n){var mine=rows.filter(function(r){var k=light(r);return leaders(r).indexOf(n)>-1&&r.pr&&(k=="r"||k=="g")}),red=mine.filter(function(r){return light(r)=="r"}).length;
+ document.getElementById("who").innerHTML=names.map(function(n){var mine=rows.filter(function(r){var k=light(r);return leaders(r).indexOf(n)>-1&&r.pr&&r.pr!="Workshop"&&(k=="r"||k=="g")}),red=mine.filter(function(r){return light(r)=="r"}).length;
   return'<button class="hero'+(fl.who==n?" on":"")+'" data-w="'+n+'">'+av(n).replace('class="av"','data-hero="'+n+'" title="Открыть профиль героя"')+'<div><b>'+HERO[n][0]+'</b><em>'+n+'</em><span>'+HERO[n][1]+'</span><span class="hs">Активных с приоритетом: '+mine.length+(red?' · <i>нужно внимание: '+red+'</i>':'')+'</span></div></button>'}).join("")
  document.getElementById("mode").innerHTML=[["prio","По приоритетам"],["lt","По светофору"]].map(function(m){return'<button class="'+(view==m[0]?"on":"")+'" data-m="'+m[0]+'">'+m[1]+'</button>'}).join("");
  var ORD=["Launched","Подписание Term Sheet","БК/Фин.модель","Origination","On hold","Передано","Отказ"],sts=ORD.filter(function(s){return rows.some(function(r){return r.st==s})}).concat(rows.map(function(r){return r.st}).filter(function(s,i,a){return s&&ORD.indexOf(s)<0&&a.indexOf(s)==i}));
