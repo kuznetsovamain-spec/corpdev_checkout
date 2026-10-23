@@ -193,7 +193,7 @@ function render(){
  var dead=function(x){var k=light(x.r);return k=="n"||k=="b"||k=="l"||k=="x"||k=="c"},act=list.filter(function(x){return!dead(x)}),off=list.filter(dead);
  off.sort(function(a,b){return light(a.r)<light(b.r)?-1:1});
  var groups=view=="prio"?[["P1","Приоритет 1 — главное на этой неделе"],["P2","Приоритет 2"],["P3","Приоритет 3"],["P4","Приоритет 4"],["","Активные без приоритета"]]:[["r","Нужно внимание"],["g","Идёт по плану"]];
- var h="";groups.forEach(function(g){var it=act.filter(function(x){return view=="prio"?x.r.pr==g[0]:light(x.r)==g[0]});
+ var h="";groups.forEach(function(g){var it=act.filter(function(x){return view=="prio"?x.r.pr==g[0]:light(x.r)==g[0]});if(view=="prio"&&g[0]=="P1"){var rk=function(x){return x.r.p=="M&A"?0:x.r.p=="Sber"?1:x.r.p=="Яндекс"?2:3};it=it.map(function(x,i){return[x,i]}).sort(function(p,q){return rk(p[0])-rk(q[0])||p[1]-q[1]}).map(function(p){return p[0]})}
   if(!it.length)return;h+="<h2>"+g[1]+" <small>"+it.length+"</small></h2><div class='grid'>"+it.map(function(x){return card(x.r,x.i)}).join("")+"</div>"});
  if(!act.length)h+="<p class='nm'>Среди активных проектов ничего не найдено.</p>";
  var lau=off.filter(function(x){return light(x.r)=="l"}),hold=off.filter(function(x){var k=light(x.r);return k=="n"||k=="b"}),rej=off.filter(function(x){return light(x.r)=="x"}),cls=off.filter(function(x){return light(x.r)=="c"});
